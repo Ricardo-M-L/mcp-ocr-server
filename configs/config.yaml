@@ -1,0 +1,52 @@
+server:
+  name: mcp-ocr-server
+  version: 1.0.0
+  description: Production-grade OCR MCP Server with intelligent preprocessing
+
+ocr:
+  engine: tesseract
+  language: eng+chi_sim+chi_tra+jpn  # 支持英文、简体中文、繁体中文、日文
+  data_path: /usr/local/share/tessdata  # tessdata 路径
+  page_seg_mode: 3  # 页面分割模式: 3=全自动
+  engine_mode: 3    # 引擎模式: 3=默认
+  whitelist: ""     # 字符白名单 (空表示不限制)
+  supported_langs:
+    - eng
+    - chi_sim
+    - chi_tra
+    - jpn
+  max_image_size: 10485760  # 10MB
+  timeout: 30  # 超时时间(秒)
+
+preprocessing:
+  enabled: true
+  auto_mode: true  # 自动分析图像质量并选择预处理步骤
+  grayscale: true
+  denoise: true
+  denoise_strength: 5
+  binarization: true
+  binarization_mode: otsu  # otsu 或 adaptive
+  adaptive_block_size: 11
+  adaptive_c: 2.0
+  deskew_correction: true
+  deskew_angle_limit: 10.0
+  resize: false
+  resize_width: 0
+  resize_height: 0
+  quality_thresholds:
+    sharpness: 100.0   # 清晰度阈值
+    contrast: 30.0     # 对比度阈值
+    brightness: 50.0   # 最小亮度阈值
+
+performance:
+  worker_pool_size: 4    # Worker 池大小
+  queue_size: 100        # 任务队列大小
+  cache_enabled: true    # 是否启用结果缓存
+  cache_size: 100        # 缓存条目数
+  cache_ttl: 3600        # 缓存 TTL (秒)
+  resource_pooling: true # 是否启用资源池
+
+logger:
+  level: info      # 日志级别: debug, info, warn, error
+  format: console  # 输出格式: json, console
+  output_path: stdout  # 输出路径: stdout, stderr, 或文件路径

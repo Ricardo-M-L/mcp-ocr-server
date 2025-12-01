@@ -1,0 +1,49 @@
+server:
+  name: mcp-ocr-server
+  version: 1.0.0
+  description: Production-grade OCR MCP Server with intelligent preprocessing
+
+ocr:
+  engine: tesseract
+  language: eng  # 开发环境只使用英文，减少资源消耗
+  data_path: /usr/local/share/tessdata
+  page_seg_mode: 3
+  engine_mode: 3
+  whitelist: ""
+  supported_langs:
+    - eng
+  max_image_size: 5242880  # 5MB (开发环境限制)
+  timeout: 15  # 15秒
+
+preprocessing:
+  enabled: true
+  auto_mode: true
+  grayscale: true
+  denoise: true
+  denoise_strength: 5
+  binarization: true
+  binarization_mode: otsu
+  adaptive_block_size: 11
+  adaptive_c: 2.0
+  deskew_correction: true
+  deskew_angle_limit: 10.0
+  resize: false
+  resize_width: 0
+  resize_height: 0
+  quality_thresholds:
+    sharpness: 100.0
+    contrast: 30.0
+    brightness: 50.0
+
+performance:
+  worker_pool_size: 2  # 开发环境减少 worker 数量
+  queue_size: 50
+  cache_enabled: true
+  cache_size: 50
+  cache_ttl: 1800  # 30分钟
+  resource_pooling: true
+
+logger:
+  level: debug  # 开发环境使用 debug 级别
+  format: console
+  output_path: stdout
